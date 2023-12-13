@@ -1,71 +1,72 @@
-﻿namespace projekt1Badowski4c;
+﻿using System.Text.Json;
+using System.Threading;
+using Microsoft.Maui.Controls;
 
-public partial class MainPage : ContentPage
+namespace NotatnikBadowski4cDziala
 {
-    DateTime teraz = DateTime.Now;
-    double lat;
-    double lon;
-    string[] nazwy = new string[50];
-    int j = 0;
-    string nazwa = "notatka";
-    string input = "";
-    public MainPage()
+    public partial class MainPage : ContentPage
     {
-        InitializeComponent();
-        GetCachedLocation();
-        timestamp.Text = teraz.ToString();
-        lokacja.Text = "Latitude: " + lat.ToString() + ", Longitude: " + lon.ToString();
-    }
-    public async Task<string> GetCachedLocation()
-    {
-        Location location = await Geolocation.Default.GetLocationAsync();
-        if (location != null)
+        List<Notatka> nazwy = new List<Notatka>();
+        DateTime teraz = DateTime.Now;
+        double lat;
+        double lon;
+        string input = "";
+        class Notatka
         {
-            location.Latitude = lat;
-            location.Longitude = lon;
+            public string nazwa { get; set; }
+            public string zawartosc { get; set; }
+            public Notatka(string nazwa)
+            {
+                this.nazwa = nazwa;
+            }
         }
-        else
+        public MainPage()
         {
-            lat = -1;
-            lon = -1;
+            InitializeComponent();
+            location();
+            timestamp.Text = teraz.ToString();
         }
-
-        return "None";
-    }
-    private void zapisz(object sender, EventArgs e)
-    {
-        nazwa = "notatka";
-        string data = teraz.ToString();
-        string lokalizacja = lat.ToString() + ", " + lon.ToString();
-        input = (tresc.Text).ToString();
-        string text = "Data: " + data + ", lokalizacja: " + lokalizacja + ", podane przez użytkownika: " + input;
-        nazwa = nazwa + j.ToString() + ".txt";
-        nazwy[j] = nazwa;
-        j++;
-        //wynik.Text = nazwa.GetType().ToString();
-        zapisywanie(text, nazwa);
-    }
-    private void zapisywanie(string text, string targetFileName)
-    {
-        string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
-        using FileStream outputStream = System.IO.File.OpenWrite(targetFile);
-        using StreamWriter streamWriter = new StreamWriter(outputStream);
-        streamWriter.WriteAsync(text);
-        input = "";
-    } // https://learn.microsoft.com/en-us/answers/questions/991205/how-to-write-a-text-file-in-maui
-    // https://www.google.com/search?client=firefox-b-e&q=.net+maui+tabbed+page+examples
-    // https://learn.microsoft.com/en-us/dotnet/maui/fundamentals/shell/tabs?view=net-maui-8.0
-    // https://learn.microsoft.com/en-us/dotnet/maui/platform-integration/device/geolocation?view=net-maui-8.0&tabs=android
-    private void odczytaj(object sender, EventArgs e)
-    {
-        wynik.Text = test(nazwy[1]).ToString();
-    }
-    private string test(string targetFileName)
-    {
-        string targetFile = System.IO.Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
-        using FileStream InputStream = System.IO.File.OpenRead(targetFile);
-        using StreamReader reader = new StreamReader(InputStream);
-        return reader.ReadToEnd();
+        private async Task<string> location()
+        {
+            Location location = await Geolocation.Default.GetLocationAsync();
+            lat = location.Latitude;
+            lon = location.Longitude;
+            lokacja.Text = $"Latitude: {lat}, Longitude: {lon}";
+            return "none";
+        }
+        private void zapisz(object sender, EventArgs e)
+        {
+            ZrobJson(nazwy);
+        }
+        private void ZrobJson(List<Notatka> DoSerializacji)
+        {
+            string path = Path.Combine(FileSystem.Current.AppDataDirectory, "nazwy.json");
+            File.Delete(path);
+            using FileStream file = File.OpenWrite(path);
+            JsonSerializer.Serialize(file, DoSerializacji);
+            file.Close();
+            using FileStream test = File.OpenRead(path);
+            info2.Text = File.ReadAllText(path);
+        }
+        private async void zapisywanie(string text, string targetFileName)
+        {
+            string targetFile = Path.Combine(FileSystem.Current.AppDataDirectory, targetFileName);
+            using FileStream outputStream = File.OpenWrite(targetFile);
+            using StreamWriter streamWriter = new StreamWriter(outputStream);
+            await streamWriter.WriteAsync(text);
+            info3.Text = "Plik dodano pomyślnie!";
+            input = "";
+        }
+        private void dodaj(object sender, EventArgs e)
+        {
+            long unixtime1 = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds(); // to dziala bardzo dobrze
+            string nazwaPliku = unixtime1.ToString() + ".txt";
+            nazwy.Add(new Notatka(nazwaPliku));
+            string data = teraz.ToString();
+            string lokalizacja = lat.ToString() + ", " + lon.ToString();
+            input = (tresc.Text).ToString();
+            string text = $"Data: {data}, lokalizacja: {lokalizacja}, podane przez uzytkownika: {input}";
+            zapisywanie(text, nazwaPliku);
+        }
     }
 }
-

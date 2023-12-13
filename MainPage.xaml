@@ -1,43 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="projekt1Badowski4c.MainPage">
-
+             x:Class="NotatnikBadowski4cDziala.MainPage">
+    <Shell.TitleView>
+        <Label
+            Text="Zapis"
+            FontSize="15"
+            Padding="20"
+            TextColor="White"/>
+    </Shell.TitleView>
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
             VerticalOptions="Center">
-
+            <Label 
+        Text=""
+        x:Name="lokacja"
+        FontSize="15"/>
+            <Label 
+        Text=""
+        x:Name="timestamp"
+        FontSize="15"/>
             <Label 
                 Text=""
-                x:Name="lokacja"
-                FontSize="15"/>
+                x:Name="info"/>
             <Label 
-                Text=""
-                x:Name="timestamp"
-                FontSize="15"/>
-            <Entry 
-                Text=""
-                x:Name="nL"
-                FontSize="15"/>
-            <Entry 
-                Text=""
-                x:Name="tresc"
+    Text=""
+    x:Name="info2"/>
+            <Label 
+    Text=""
+    x:Name="info3"/>
+            <Editor 
+        Text=""
+        x:Name="tresc"
+        FontSize="15"/>
+            <Button 
+                Text="Dodaj notatke"
+                Clicked="dodaj"
                 FontSize="15"/>
             <Button
-                Text="Zapisz"
-                Clicked="zapisz"
-                FontSize="15"/>
-            <Label 
-                Text=""
-                x:Name="wynik"
-                FontSize="15"/>
-            <Button 
-                Text="Odczyt"
-                Clicked="odczytaj"
-                FontSize="15"/>
-            
+        Text="Zapisz"
+        Clicked="zapisz"
+        FontSize="15"/>
+
         </VerticalStackLayout>
     </ScrollView>
 

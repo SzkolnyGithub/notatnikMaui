@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NotatnikBadowski4cDziala.NewPage1"
+             Title="NewPage1">
+    <Shell.TitleView>
+        <Label
+            Text="Odczyt"
+            FontSize="15"
+            Padding="20"
+            TextColor="White"/>
+    </Shell.TitleView>
+
+    <StackLayout>
+        <Label 
+            Text="info"
+            FontSize="15"
+            x:Name="info"/>
+        <ListView ItemsSource="{Binding Notes}" ItemSelected="klik">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding nazwa}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Label 
+            Text="Tu wyświetli się zawartość wybranej notatki"
+            x:Name="wynik"
+            FontSize="15"/>
+        <Button 
+            Text="Odśwież"
+            Clicked="dodaj"/>
+    </StackLayout>
+</ContentPage>
