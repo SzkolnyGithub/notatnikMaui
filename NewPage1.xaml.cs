@@ -10,7 +10,6 @@ public partial class NewPage1 : ContentPage
     {
         List<Notatka> nazwy = new List<Notatka>();
         public string nazwa { get; set; }
-        public string zawartosc { get; set; }
         public Notatka() { }
         public Notatka(string nazwa)
         {
@@ -24,7 +23,7 @@ public partial class NewPage1 : ContentPage
         Notes = new ObservableCollection<Notatka>();
         BindingContext = this;
 }
-    private void dodaj(object sender, EventArgs e)
+    public void dodaj(object sender, EventArgs e)
     {
         Notes.Clear();
         string path = Path.Combine(FileSystem.Current.AppDataDirectory, "nazwy.json");

@@ -1,4 +1,7 @@
-﻿namespace NotatnikBadowski4cDziala
+﻿using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+
+namespace NotatnikBadowski4cDziala
 {
     public partial class AppShell : Shell
     {

@@ -6,15 +6,25 @@ namespace NotatnikBadowski4cDziala
 {
     public partial class MainPage : ContentPage
     {
+        /*private void timer()
+        {
+            var timer = Application.Current.Dispatcher.CreateTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (s, e) => Update();
+            timer.Start();
+        }
+        private void Update()
+        {
+            DateTime teraz = DateTime.Now;
+            timestamp.Text = teraz.ToString();
+        }*/
         List<Notatka> nazwy = new List<Notatka>();
-        DateTime teraz = DateTime.Now;
         double lat;
         double lon;
         string input = "";
         class Notatka
         {
             public string nazwa { get; set; }
-            public string zawartosc { get; set; }
             public Notatka(string nazwa)
             {
                 this.nazwa = nazwa;
@@ -24,14 +34,14 @@ namespace NotatnikBadowski4cDziala
         {
             InitializeComponent();
             location();
-            timestamp.Text = teraz.ToString();
+            //timer();
         }
         private async Task<string> location()
         {
             Location location = await Geolocation.Default.GetLocationAsync();
             lat = location.Latitude;
             lon = location.Longitude;
-            lokacja.Text = $"Latitude: {lat}, Longitude: {lon}";
+            //lokacja.Text = $"Latitude: {lat}, Longitude: {lon}";
             return "none";
         }
         private void zapisz(object sender, EventArgs e)
@@ -44,9 +54,10 @@ namespace NotatnikBadowski4cDziala
             File.Delete(path);
             using FileStream file = File.OpenWrite(path);
             JsonSerializer.Serialize(file, DoSerializacji);
+            info2.Text = "Notatki zapisano pomyślnie!";
             file.Close();
-            using FileStream test = File.OpenRead(path);
-            info2.Text = File.ReadAllText(path);
+            /*using FileStream test = File.OpenRead(path);
+            info2.Text = File.ReadAllText(path);*/
         }
         private async void zapisywanie(string text, string targetFileName)
         {
@@ -54,15 +65,15 @@ namespace NotatnikBadowski4cDziala
             using FileStream outputStream = File.OpenWrite(targetFile);
             using StreamWriter streamWriter = new StreamWriter(outputStream);
             await streamWriter.WriteAsync(text);
-            info3.Text = "Plik dodano pomyślnie!";
-            input = "";
+            info3.Text += $"Plik {targetFileName} dodano pomyślnie!\n";
+            tresc.Text = "";
         }
         private void dodaj(object sender, EventArgs e)
         {
             long unixtime1 = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds(); // to dziala bardzo dobrze
             string nazwaPliku = unixtime1.ToString() + ".txt";
             nazwy.Add(new Notatka(nazwaPliku));
-            string data = teraz.ToString();
+            string data = DateTime.Now.ToString();
             string lokalizacja = lat.ToString() + ", " + lon.ToString();
             input = (tresc.Text).ToString();
             string text = $"Data: {data}, lokalizacja: {lokalizacja}, podane przez uzytkownika: {input}";

@@ -5,9 +5,10 @@
     <Shell.TitleView>
         <Label
             Text="Zapis"
-            FontSize="15"
-            Padding="20"
-            TextColor="White"/>
+            FontSize="20"
+            Padding="10"
+            TextColor="White"
+            />
     </Shell.TitleView>
     <ScrollView>
         <VerticalStackLayout
@@ -15,34 +16,32 @@
             Padding="30,0"
             VerticalOptions="Center">
             <Label 
-        Text=""
-        x:Name="lokacja"
-        FontSize="15"/>
-            <Label 
-        Text=""
-        x:Name="timestamp"
-        FontSize="15"/>
+                Text=""
+                x:Name="lokacja"
+                FontSize="15"/>
             <Label 
                 Text=""
-                x:Name="info"/>
+                x:Name="timestamp"
+                FontSize="15"/>
             <Label 
-    Text=""
-    x:Name="info2"/>
+                Text=""
+                x:Name="info2"/>
             <Label 
-    Text=""
-    x:Name="info3"/>
+                Text=""
+                x:Name="info3"/>
             <Editor 
-        Text=""
-        x:Name="tresc"
-        FontSize="15"/>
+                Text=""
+                x:Name="tresc"
+                FontSize="15"
+                HeightRequest="150"/>
             <Button 
                 Text="Dodaj notatke"
                 Clicked="dodaj"
                 FontSize="15"/>
             <Button
-        Text="Zapisz"
-        Clicked="zapisz"
-        FontSize="15"/>
+                Text="Zapisz"
+                Clicked="zapisz"
+                FontSize="15"/>
 
         </VerticalStackLayout>
     </ScrollView>

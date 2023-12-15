@@ -20,7 +20,8 @@
             Icon="odczyt.png">
             <ShellContent 
                 ContentTemplate="{DataTemplate local:NewPage1}" 
-                Route="NewPage1" />
+                Route="NewPage1"
+                />
         </Tab>
     </TabBar>
 
